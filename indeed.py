@@ -1,52 +1,69 @@
 #%%
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import time
+from time import sleep
+from bs4 import BeautifulSoup
+
 
 
 class Scraper:
+    def __init__(self):
+        self.driver = webdriver.Chrome()
 
-    driver = webdriver.Chrome() 
-    URL = "https://www.zoopla.co.uk/new-homes/property/london/?q=London&results_sort=newest_listings&search_source=new-homes&page_size=25&pn=1&view_type=list"
-    driver.get(URL)
+    def get_web_page(self):
+        self.driver.get("https://uk.indeed.com/")
 
-    def get_links(driver: webdriver.Chrome) -> list:
-        '''
-        Returns a list with all the links in the current page
-        Parameters
-        ----------
-        driver: webdriver.Chrome
-            The driver that contains information about the current page
+    def scroll_page_down(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        height = self.driver.execute_script("return document.documentElement.scrollHeight")
+        self.driver.execute_script("window.scrollTo(0, " + str(height) + ");")
+
+    def scroll_page_up(self):
+        self.driver.execute_script("window.scrollTo(0,document.body.scrollTop);")
+    
+    def find_search_bar(self):
+        search_bar = self.driver.find_element(by=By.XPATH, value='//*[@class="icl-TextInput-wrapper"]')
+        search_bar.click()
+    
+    def search_input(self):
+        search_bar = self.driver.find_element(by=By.XPATH, value='//*[@class="icl-TextInput-control"]')
+        search_bar.send_keys("Junior Data Engineer")
+        search_bar.send_keys(Keys.RETURN)
+        sleep(5)
+
+    def accept_cookies(self):
+        sleep(3)
+        try:
+            accept_cookies_button = self.driver.find_element(by=By.XPATH, value='//*[@id="onetrust-accept-btn-handler"]')
+            accept_cookies_button.click()
+        except:
+            print("Please try again an Error has occured.")
         
-        Returns
-        -------
-        link_list: list
-            A list with all the links in the page
-        '''
-
-        prop_container = driver.find_element(by=By.XPATH, value='//div[@class="css-1itfubx e5pbze00"]')
-        prop_list = prop_container.find_elements(by=By.XPATH, value='./div')
-        link_list = []
         
-
-        for house_property in prop_list:
-            a_tag = house_property.find_element(by=By.TAG_NAME, value='a')
-            link = a_tag.get_attribute('href')
-            link_list.append(link)
-
-        return link_list
-
-    big_list = []
-    driver = load_and_accept_cookies()
-
-    for i in range(5): # The first 5 pages only
-        big_list.extend(get_links(driver)) # Call the function we just created and extend the big list with the returned list
-        ## TODO: Click the next button. Don't forget to use sleeps, so the website doesn't suspect
-        pass # This pass should be removed once the code is complete
+       
 
 
-    for link in big_list:
-        ## TODO: Visit all the links, and extract the data. Don't forget to use sleeps, so the website doesn't suspect
-        pass # This pass should be removed once the code is complete
 
-    driver.quit() # Close the browser when you finish
+
+
+def web_scrape():
+    web = Scraper()
+    web.get_web_page()
+    while True:
+        web.accept_cookies()
+        web.find_search_bar()
+        web.search_input()
+        sleep(5)
+        web.scroll_page_down()
+        break
+
+    
+
+
+
+web_scrape()
+
+
+
