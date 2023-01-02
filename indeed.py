@@ -47,21 +47,39 @@ if __name__ == "__main__":
             except:
                 print("Please try again an Error has occured.")
 
-    def url_links(self):
-        #parsed_url = urllib.parse.urlparse(self.driver.current_url)
-        self.elems = self.driver.find_elements(by=By.XPATH, value='//*[@class="jcs-JobTitle css-jspxzf eu4oa1w0"]')
-        self.url_links_list = [elem.get_attribute('href') for elem in self.elems]
-        #self.url_links_list.append(web_url)
-        print(self.url_links_list)
-        
+        def url_links(self):
+            #parsed_url = urllib.parse.urlparse(self.driver.current_url)
+            self.elems = self.driver.find_elements(by=By.XPATH, value='//*[@class="jcs-JobTitle css-jspxzf eu4oa1w0"]')
+            self.url_links_list = [elem.get_attribute('href') for elem in self.elems]
+            #self.url_links_list.append(web_url)
+            print(self.url_links_list)
+                    ## https://www.youtube.com/watch?v=HpLJEGApKEs
 
-        ## https://www.youtube.com/watch?v=HpLJEGApKEs
+        def retrieve_data(self):
+            web_s = "https://uk.indeed.com/pagead/clk?mo=r&ad=-6NYlbfkN0A25kp9YPN3MdKWplMFWCpiKNUYRoYgUkIFHWBF1fqov3p11x9regITmqO7RCynW_rYAYB4b9qhT5T1bIyNFuLBxGVNB8fqdZPUBDXJQPpXhrUzKz7_7OBTiDMbERHtAlsNwu-byaZDPUM7ZWhGtnmTz2-2Wsp47VSBgJgpRwiazL1qThLnOVV47b1pYw90-oq5nTNddhsw3cRxjvjI-V5htBKzMNTU3X7LSHGZnE93h_xsU3M8RoBg_45dTCQelofAK1wEj3WOyhNH-2xJdNw7VxxFRqNZyYkEX3RWBcLazX_mHO1n3hc39_kOvLsoSK2vWAcsEyMXiyh4p2a_Q0LZtccJjxkRjwsL6FbHwLge9XhvjypPppEIRNXAlyttqtfHmM6Vp0zmdImLpwZ0U7rslD5q1jHKxRyR9v2khCuNSkM4Wds0NvW-a9drNz02N-y74VM3Sq_KJzDgYrkDgzWKaHDocXEPx1b23T3JUNUqbQ==&xkcb=SoCb-_M3V5nCdAwsYx0LbzkdCdPP&p=0&fvj=1&vjs=3"
+            self.driver.get(web_s)
+            sleep(3)
+            try:
+                accept_cookies_button = self.driver.find_element(by=By.XPATH, value='//*[@id="onetrust-accept-btn-handler"]')
+                accept_cookies_button.click()
+            except:
+                print("Please try again an Error has occured.")
+            image_data = self.driver.find_element(by=By.XPATH, value='//*[@class="jobsearch-CompanyAvatar-image"]')
+            image_link = image_data.get_attribute('src')
+            print(f'Image link = {image_link}')
+            image_2 = self.driver.find_element(by=By.XPATH, value='//*[@class="gnav-header-1rgkyyf eu4oa1w0"]')
+            image_link_2 = image_2.get_attribute('src')
+            print(f'Image 2 link = {image_link_2}')
 
 
 
 
-        
-        
+
+def trial():
+    web = Scraper()
+    web.retrieve_data()
+
+                
         
        
 
@@ -80,10 +98,9 @@ def web_scrape():
         break
 
     
+trial()
 
 
-
-web_scrape()
 
 
 
