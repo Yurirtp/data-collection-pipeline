@@ -15,3 +15,37 @@ The data scraping tool is created as a class, and all of the functions for each 
 Selenium is used to navigate to the various fields on the search page and complete them using our initial paramters. Different approaches are required depending on whether the fields are free text input or menu dropdowns.
 The method stores the search results URL as an attribute of the class, and then returns.
 
+# def extract_data(self):
+            self.get_web_page()
+            self.accept_cookies()
+            self.find_search_bar()
+            self.search_input()
+            self.scroll_page_down()
+
+            
+            for key, value in data.items():
+                data = {}
+                print(key, ':', value)
+                job_info = {}
+                job_info['job_title'] = 'Junior Software Engineer'  # Extract the job title
+                job_info['company'] = 'Hatch'  # Extract the company name
+                job_info['location'] = 'Birmingham'  # Extract the location
+                job_info['salary'] = '£42,000 a year'  # Extract the salary
+                job_info['employment_type'] = 'Full-time'  # Extract the employment type
+                job_info['benefits'] = ['Company pension']  # Extract the benefits
+                self.date = str(date.today())
+                self.hour = datetime.now()
+                self.current_time = str(self.hour.strftime("%H:%M"))
+                data['job_info'] = job_info  # Add the job information to the data dictionary
+
+                for key, value in data.items():
+                    print(key, ':', value)
+                        data[job_id] = {
+                        'job_title': job_title,
+                            'company': company,
+                            'location': location,
+                            'salary': salary,
+                            'employment_type': employment_type,
+                            'benefits': benefits
+                        }
+                        # ## https://www.youtube.com/watch?v=HpLJEGApKEs
